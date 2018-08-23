@@ -1,10 +1,11 @@
 {
-  "name": "RNFirebaseStarter",
+  "name": "pushstart",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
     "babel-jest": "^23.4.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
+    "eslint-config-rallycoding": "^3.2.0",
     "fs-extra": "^6.0.1",
     "jest": "^23.4.0",
     "react-test-renderer": "^16.4.1",
@@ -22,8 +23,14 @@
   },
   "dependencies": {
     "fbjs": "^0.8.17",
+    "native-base": "^2.7.2",
     "react": "^16.3.2",
     "react-native": "^0.55.3",
-    "react-native-firebase": "^4.3.6"
+    "react-native-firebase": "^4.3.6",
+    "react-navigation": "^2.11.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0"
   }
 }
