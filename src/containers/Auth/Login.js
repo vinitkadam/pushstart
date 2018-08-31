@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Image, StatusBar, Dimensions, Animated } from 'react-native';
+import { View, Text, TextInput, Image, StatusBar, Dimensions, Animated, ScrollView } from 'react-native';
 import { Item, Input, Button } from 'native-base';
 
 import firebase from 'react-native-firebase';
-import OfflineBar from '../components/OfflineBar';
+import OfflineBar from '../../components/OfflineBar';
 
 const successImageUri = 'https://cdn.pixabay.com/photo/2015/06/09/16/12/icon-803718_1280.png';
 

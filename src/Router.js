@@ -3,12 +3,12 @@ import {
     createBottomTabNavigator
 } from 'react-navigation';
 
-import SplashScreen from './containers/SplashScreen';
-import OnBoarding from './containers/OnBoarding';
-import Login from './containers/Login';
-import VerifyOtp from './containers/VerifyOtp';
-import Register from './containers/Register';
-import HomeScreen from './containers/HomeScreen';
+import SplashScreen from './containers/SplashScreen/SplashScreen';
+import OnBoarding from './containers/OnBoarding/OnBoarding';
+import Login from './containers/Auth/Login';
+import VerifyOtp from './containers/Auth/VerifyOtp';
+import Register from './containers/Auth/Register';
+import HomeScreen from './containers/HomeScreen/HomeScreen';
 
 const MainNavigator = createStackNavigator({
     splashScreen: {
@@ -18,7 +18,7 @@ const MainNavigator = createStackNavigator({
         screen: OnBoarding
     },
     auth: createStackNavigator({
-        login:{
+        login: {
             screen: Login
         },
         verifyOtp: {
