@@ -1,14 +1,14 @@
 import { persistCombineReducers } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 // import ConnectionReducer from './ConnectionReducer';
-import TempReducer from './TempReducer';
+import authReducer from '../containers/Auth/reducer';
 
 const config = {
     key: 'primary',
     storage,
-    whitelist: [],
+    whitelist: [authReducer],
 };
 
 export default persistCombineReducers(config, {
-    tempReducer: TempReducer
+    auth: authReducer
 });

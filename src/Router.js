@@ -17,7 +17,7 @@ const MainNavigator = createStackNavigator({
     onBoarding: {
         screen: OnBoarding
     },
-    auth: createStackNavigator({
+    // auth: createStackNavigator({
         login: {
             screen: Login
         },
@@ -26,17 +26,17 @@ const MainNavigator = createStackNavigator({
         },
         register: {
             screen: Register
-        }
-    },
-    {
-        initialRouteName: 'login',
-        headerMode: 'none',
-        navigationOptions: {
+        },
+    // },
+    // {
+    //     initialRouteName: 'login',
+    //     headerMode: 'none',
+    //     navigationOptions: {
             
-        }
-    }),
+    //     }
+    // }),
     app: createBottomTabNavigator({
-            home:{
+            home: {
                 screen: HomeScreen
             },
         },

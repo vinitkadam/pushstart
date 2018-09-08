@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, AsyncStorage } from 'react-native';
 import { Button } from 'native-base';
 import firebase from 'react-native-firebase';
 
 class HomeScreen extends Component {
     
+    componentDidMount() {
+        this.setFirstTimeLogin();   
+    }
+
+    async setFirstTimeLogin() {
+        await AsyncStorage.setItem('isFirstTimeLogin', 'true');
+    }
     signOut = () => {
         firebase.auth().signOut();
     }

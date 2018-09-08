@@ -1,12 +1,10 @@
+import firebase from 'react-native-firebase';
 import {
     PHONE_CHANGED,
-    OTP_CHANGED,
-    USER_AUTHENTICATED,
-    SIGN_OUT,
-    NAME_CHANGED,
-    EMAIL_CHANGED,
-    SET_LOADING
-} from './types';
+    SET_LOADING,
+    SET_USER_DATA,
+    SET_CONFIRM_RESULT,
+} from '../../actions/types';
 
 //phone input on the signup/login page
 export const phoneChanged = (text) => {
@@ -16,32 +14,67 @@ export const phoneChanged = (text) => {
     };
 };
 
-//otp input 
-export const otpChanged = (text) => {
-    return {
-        type: OTP_CHANGED,
-        payload: text
+export const loginInWithPhoneNumber = (phoneNumber, callback) => {
+    return (dispatch) => {
+        dispatch({ type: SET_LOADING, payload: { loading: true } });
+        const usersRef = firebase.firestore().collection('users').doc(phoneNumber);
+        usersRef.get()
+            .then((docSnapshot) => {
+                console.log('docSnapShot', docSnapshot);
+                if (docSnapshot.exists) {
+                    dispatch({ type: SET_USER_DATA, payload: { user: docSnapshot.data(), loading: false } });
+                    firebase.auth().signInWithPhoneNumber(phoneNumber)
+                        .then(confirmResult => { 
+                            console.log("confirmresult", confirmResult);
+                            const uid = confirmResult._auth._user.uid;
+                            console.log("uid: ", uid);
+                            dispatch({ SET_CONFIRM_RESULT, payload: confirmResult });
+                        })
+                        .catch(error => { console.log(error); });
+                    callback(true);
+                } else {
+                    dispatch({ type: SET_LOADING, payload: { loading: false } });
+                    callback(false);
+                }
+            });
+    }
+};
+
+export const registerWithPhoneNumber = ({ name, phoneNumber, email, designation, interests }, callback) => {
+    return (dispatch) => {
+        dispatch({ type: SET_LOADING, payload: { loading: true } });
+        firebase.firestore().collection('users').doc(phoneNumber).set({
+            id: '',
+            name,
+            phoneNumber,
+            email,
+            designation,
+            interests
+        })
+        .then(() => {
+            const usersRef = firebase.firestore().collection('users').doc(phoneNumber);
+            usersRef.get()
+                .then((docSnapshot) => {
+                    console.log('docSnapShot', docSnapshot);
+                    if (docSnapshot.exists) {
+                        dispatch({ type: SET_USER_DATA, payload: { user: docSnapshot.data(), loading: false } });
+                        firebase.auth().signInWithPhoneNumber(phoneNumber)
+                            .then(confirmResult => { 
+                                console.log("confirmresult", confirmResult);
+                                const uid = confirmResult._auth._user.uid;
+                                console.log("uid: ", uid);
+                                dispatch({ SET_CONFIRM_RESULT, payload: confirmResult });
+                            })
+                            .catch(error => { console.log(error); });
+                        callback(true);
+                    } else {
+                        dispatch({ type: SET_LOADING, payload: { loading: false } });
+                        callback(false);
+                    }
+                });
+            })
+        .catch(
+            error => { console.log(error);
+        });
     };
 };
-
-//name input on the signup/login page
-export const nameChanged = (text) => {
-  return {
-      type: NAME_CHANGED,
-      payload: text
-  };
-};
-
-//email input on the signup/login page
-export const emailChanged = (text) => {
-  return {
-      type: EMAIL_CHANGED,
-      payload: text
-  };
-};
-
-export const loginFirebase = (phoneNumber) => {
-    return (dispatch) => {
-        // login here
-    }
-}

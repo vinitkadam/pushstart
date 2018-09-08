@@ -10,12 +10,13 @@ class SplashScreen extends Component {
     componentDidMount() {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-              this.props.navigation.dispatch(app);
+                this.setFirstTimeLogin();
+                this.props.navigation.dispatch(app);
             } else {
                 const isFirstTimeLogin = this.getIsFirstTimeLogin();
-                console.log("isFirstTimeLogin", isFirstTimeLogin);
-                if (isFirstTimeLogin === false) {
-                    this.props.navigation.dispatch(auth);
+                console.log('isFirstTimeLogin', isFirstTimeLogin);
+                if (isFirstTimeLogin === 'false') {
+                    this.props.navigation.dispatch(login);
                 } else {
                     this.props.navigation.dispatch(onBoarding);
                 }
@@ -23,9 +24,17 @@ class SplashScreen extends Component {
           });		
     }
 
+    componentWillUnmount() {
+        if (this.unsubscribe) this.unsubscribe();
+    }
+
     async getIsFirstTimeLogin() {
         const isFirstTimeLogin = await AsyncStorage.getItem('isFirstTimeLogin');
         return isFirstTimeLogin;
+    }
+
+    async setFirstTimeLogin() {
+        await AsyncStorage.setItem('isFirstTimeLogin', 'true');
     }
 
     render() {
@@ -43,9 +52,9 @@ const onBoarding = StackActions.reset({
     actions: [NavigationActions.navigate({ routeName: 'onBoarding' })],
 });
 
-const auth = StackActions.reset({
+const login = StackActions.reset({
     index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'auth' })],
+    actions: [NavigationActions.navigate({ routeName: 'login' })],
 });
 
 const app = StackActions.reset({
