@@ -27,6 +27,7 @@
     "react": "^16.3.2",
     "react-native": "^0.55.3",
     "react-native-firebase": "^4.3.6",
+    "react-native-onboarding-swiper": "git+https://github.com/vinitkadam/react-native-onboarding-swiper.git",
     "react-navigation": "^2.11.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
