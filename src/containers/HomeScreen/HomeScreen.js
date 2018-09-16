@@ -7,10 +7,15 @@ class HomeScreen extends Component {
     
     componentDidMount() {
         this.setFirstTimeLogin();   
+        this.setIsLoggedIn();
     }
 
     async setFirstTimeLogin() {
         await AsyncStorage.setItem('isFirstTimeLogin', 'true');
+    }
+
+    async setIsLoggedIn() {
+        await AsyncStorage.setItem('isLoggedIn', 'true');
     }
     signOut = () => {
         firebase.auth().signOut();

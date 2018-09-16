@@ -22,11 +22,14 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "fbjs": "^0.8.17",
+    "moment": "^2.22.2",
     "native-base": "^2.7.2",
     "react": "^16.3.2",
     "react-native": "^0.55.3",
     "react-native-firebase": "^4.3.6",
+    "react-native-linkedin": "^1.3.1",
     "react-native-onboarding-swiper": "git+https://github.com/vinitkadam/react-native-onboarding-swiper.git",
     "react-navigation": "^2.11.2",
     "react-redux": "^5.0.7",

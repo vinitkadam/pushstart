@@ -1,5 +1,5 @@
-import React,{ Component } from 'react';
-import { Text, View, ActivityIndicator, AsyncStorage, Platform } from 'react-native';
+import React, { Component } from 'react';
+import { View, ActivityIndicator, AsyncStorage } from 'react-native';
 import firebase from 'react-native-firebase';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -8,29 +8,35 @@ class SplashScreen extends Component {
     state = { loggedIn: null };
 
     componentDidMount() {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setFirstTimeLogin();
-                this.props.navigation.dispatch(app);
+        const isLoggedIn = this.getIsLoggedIn();
+
+        if (isLoggedIn === 'true') {
+            this.setFirstTimeLogin();
+            this.props.navigation.dispatch(app);
+        } else {
+            const isFirstTimeLogin = this.getIsFirstTimeLogin();
+            console.log('isFirstTimeLogin', isFirstTimeLogin);
+            if (isFirstTimeLogin === 'false') {
+                this.props.navigation.dispatch(login);
             } else {
-                const isFirstTimeLogin = this.getIsFirstTimeLogin();
-                console.log('isFirstTimeLogin', isFirstTimeLogin);
-                if (isFirstTimeLogin === 'false') {
-                    this.props.navigation.dispatch(login);
-                } else {
-                    this.props.navigation.dispatch(onBoarding);
-                }
+                this.props.navigation.dispatch(onBoarding);
             }
-          });		
+        }		
     }
 
     componentWillUnmount() {
         if (this.unsubscribe) this.unsubscribe();
     }
 
+
     async getIsFirstTimeLogin() {
         const isFirstTimeLogin = await AsyncStorage.getItem('isFirstTimeLogin');
         return isFirstTimeLogin;
+    
+    }
+    async getIsLoggedIn() {
+        const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+        return isLoggedIn;
     }
 
     async setFirstTimeLogin() {

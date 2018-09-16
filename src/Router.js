@@ -9,6 +9,8 @@ import Login from './containers/Auth/Login';
 import VerifyOtp from './containers/Auth/VerifyOtp';
 import Register from './containers/Auth/Register';
 import HomeScreen from './containers/HomeScreen/HomeScreen';
+import AfterLoader from './containers/AfterLoader';
+import Interests from './containers/Interests';
 
 const MainNavigator = createStackNavigator({
     splashScreen: {
@@ -21,8 +23,11 @@ const MainNavigator = createStackNavigator({
         login: {
             screen: Login
         },
-        verifyOtp: {
-            screen: VerifyOtp
+        // verifyOtp: {
+        //     screen: VerifyOtp
+        // },
+        after_loader: {
+            screen: AfterLoader
         },
         register: {
             screen: Register
@@ -35,6 +40,9 @@ const MainNavigator = createStackNavigator({
             
     //     }
     // }),
+    interests: {
+        screen: Interests
+    },
     app: createBottomTabNavigator({
             home: {
                 screen: HomeScreen
@@ -49,6 +57,7 @@ const MainNavigator = createStackNavigator({
         }
     )
 },{
+    // initialRouteName: 'login',
     initialRouteName: 'splashScreen',
     headerMode: 'none',
     navigationOptions: {

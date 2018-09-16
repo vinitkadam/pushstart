@@ -1,7 +1,7 @@
-import { Image, View, Text, Dimensions, ImageBackground } from 'react-native';
+import { Image, View, Dimensions, ImageBackground } from 'react-native';
 import React from 'react';
 
-import { Button } from 'native-base';
+import { Button, Icon } from 'native-base';
 
 // import { Button } from 'react-native-elements';
 
@@ -43,7 +43,7 @@ const Done = ({ isLight, ...props }) => (
     }}
     {...props}
   >
-    <Text style={{ color: 'white' }} >D</Text>
+  <Icon name="ios-checkmark" style={{ color: 'white', fontSize: 50 }} />
   </Button>
 );
 
@@ -65,40 +65,10 @@ const Next = ({ isLight, ...props }) => (
     }}
     {...props}
   >
-    <Text style={{ color: 'white' }}>N</Text>
+    <Icon name="ios-arrow-forward" style={{ color: 'white', fontSize: 30 }} />
   </Button>
 );
 
-const CustomButtons = () => (
-  <Onboarding
-    showSkip={false}
-    bottomBarHeight={120}
-    bottomBarHighlight={false}
-    DotComponent={Square}
-    NextButtonComponent={Next}
-    DoneButtonComponent={Done}
-    pages={[
-      {
-        backgroundColor: '#fff',
-        image: <ImageBackground style={styles.img1} source={require('./images/one.png')} />,
-        title: 'Hello PushStarters',
-        subtitle: 'Welcome to India’s most active community for Entrepreneur’s',
-      },
-      {
-        backgroundColor: '#fff',
-        image: <Image style={styles.img2} source={require('./images/two.png')} />,
-        title: 'Get Relevent Content ',
-        subtitle: 'Get notified about relevant content from Pushstart anytime, anywhere',
-      },
-      {
-        backgroundColor: '#fff',
-        image: <Image style={styles.img3} source={require('./images/three.png')} />,
-        title: 'Archive Access',
-        subtitle: 'Access Relevent content from our Archive anytime, anywhere',
-      },
-    ]}
-/>
-);
 
 const win = Dimensions.get('window');
 const ratio1 = win.width / 1079;
@@ -107,15 +77,15 @@ const ratio3 = win.width / 1082;
 
 const styles = {
   img1: {
-    width: win.width+2,
+    width: win.width + 2,
     height: 994 * ratio1,
   },
   img2: {
-    width: win.width+1,
+    width: win.width + 1,
     height: 994 * ratio2,
   },
   img3: {
-    width: win.width+2,
+    width: win.width + 2,
     height: 960 * ratio3,
   }
 };
@@ -124,7 +94,35 @@ export default class OnboardingScreen extends React.Component {
 
   render() {
     return (
-      <CustomButtons navigateToLogin={() => { this.props.navigation.navigate('login'); }} />
+      <Onboarding
+        onDone={() => { this.props.navigation.navigate('login'); }}
+        showSkip={false}
+        bottomBarHeight={120}
+        bottomBarHighlight={false}
+        DotComponent={Square}
+        NextButtonComponent={Next}
+        DoneButtonComponent={Done}
+        pages={[
+          {
+            backgroundColor: '#fff',
+            image: <ImageBackground style={styles.img1} source={require('./images/one.png')} />,
+            title: 'Hello PushStarters',
+            subtitle: 'Welcome to India’s most active community for Entrepreneur’s',
+          },
+          {
+            backgroundColor: '#fff',
+            image: <Image style={styles.img2} source={require('./images/two.png')} />,
+            title: 'Get Relevent Content ',
+            subtitle: 'Get notified about relevant content from Pushstart anytime, anywhere',
+          },
+          {
+            backgroundColor: '#fff',
+            image: <Image style={styles.img3} source={require('./images/three.png')} />,
+            title: 'Archive Access',
+            subtitle: 'Access Relevent content from our Archive anytime, anywhere',
+          },
+        ]}
+      />
     );
   }
 }

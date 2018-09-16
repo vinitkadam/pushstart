@@ -6,7 +6,7 @@ import authReducer from '../containers/Auth/reducer';
 const config = {
     key: 'primary',
     storage,
-    whitelist: [authReducer],
+    whitelist: ['auth'],
 };
 
 export default persistCombineReducers(config, {
