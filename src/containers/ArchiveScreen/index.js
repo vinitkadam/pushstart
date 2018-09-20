@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, AsyncStorage, FlatList, TouchableOpacity } from 'react-native';
 import { Button, Icon, Container, Content } from 'native-base';
-import firebase from 'react-native-firebase';
+import PushTrendsItem from '../HomeScreen/PushTrendsItem';
 import { colors } from '../../colors';
-import LivePushEvents from './LivePushEvents';
-import PushEventsItem from './PushEventsItem';
 
-const livePushAMA = [
+const pushTrends = [
     {
         eventName: 'How to make things Go Viral',
         eventSpeaker: 'Vinay Singhal',
@@ -25,57 +23,18 @@ const livePushAMA = [
         eventDesc: 'Cofounder of Wittyfeed',
         eventHashTag: '#PushAMA',
     }
-];
-
-const listData = [
-    {
-        type: 'ps_ama',
-        eventName: 'Brand Building for Everyone',
-        eventSpeaker: 'Sahil Vaidya',
-        eventDesc: 'Cofounder of The Minimalist',
-        eventHashTag: '#PUSHEVENTS',
-        date: '2018-09-16T18:50:32+05:30'
-    },
-    {
-        type: 'ps_launch',
-        eventName: 'Brand Building for Everyone',
-        eventSpeaker: 'Sahil Vaidya',
-        eventDesc: 'Cofounder of The Minimalist',
-        eventHashTag: '#PUSHEVENTS',
-        date: '2018-09-16T11:30:44+05:30'
-    },
 ]
 
-
-class HomeScreen extends Component {
-    
-    componentDidMount() {
-        this.setFirstTimeLogin();   
-        this.setIsLoggedIn();
-    }
-
-    async setFirstTimeLogin() {
-        await AsyncStorage.setItem('isFirstTimeLogin', 'true');
-    }
-
-    async setIsLoggedIn() {
-        await AsyncStorage.setItem('isLoggedIn', 'true');
-    }
-    signOut = () => {
-        firebase.auth().signOut();
-    }
-    
+class ArchiveScreen extends Component {
     render() {
         return (
             <Container style={styles.container}>
-                <Content
-                showsVerticalScrollIndicator={false}
-                >
+                <Content>
                     <View style={styles.topHeader}>
                         <Text style={{ flexShrink: 1, fontSize: 26, fontWeight: 'bold', paddingRight: 0 }}>
-                            Live PushEvents
+                            PushTrends
                         </Text>
-                        <View
+                        <View 
                             style={{ 
                                 backgroundColor: colors.purple, 
                                 width: 80,
@@ -95,36 +54,36 @@ class HomeScreen extends Component {
                             horizontal
                             style={{ backgroundColor: 'white', padding: 10 }}
                             keyExtractor={(item, index) => 'item'.concat(index)}
-                            data={livePushAMA}
+                            data={pushTrends}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (
                     
                                 // sqare service boxes
                                 <TouchableOpacity>
-                                    <LivePushEvents 
-                                        data={item}
+                                    <PushTrendsItem 
+                                        data={item} 
                                     />
                                 </TouchableOpacity>
                             )}    
                         />
                     </View>
-                    <View>
-                        <FlatList
+                    {/* <View>
+                        <FlatList 
                             style={{ backgroundColor: 'white', padding: 10 }}
                             keyExtractor={(item, index) => 'item'.concat(index)}
-                            data={listData}
+                            data={pushTrends}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (
                     
                                 // sqare service boxes
                                 <TouchableOpacity>
-                                    <PushEventsItem 
+                                    <PushArchiveItem 
                                         data={item}
                                     />
                                 </TouchableOpacity>
                             )}    
                         />
-                    </View>
+                    </View> */}
                 </Content>
             </Container>
         );
@@ -132,9 +91,10 @@ class HomeScreen extends Component {
 }
 
 const styles = {
-
+    container: {
+        paddingTop: 35 
+    },
     topHeader: {
-        marginTop: 35,
         flexDirection: 'row',
         paddingLeft: 30,
         justifyContent: 'space-between',
@@ -142,4 +102,5 @@ const styles = {
     },
 }
 
-export default HomeScreen;
+
+export default ArchiveScreen;

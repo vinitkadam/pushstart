@@ -35,8 +35,8 @@ const INITIAL_STATE = {
     linkedInId: '',
     firstName: '',
     lastName: '',
-    name: '',
-    headline: '',
+    name: 'Name',
+    headline: 'headline',
     industry: '',
     numConnections: 0,
     pictureUrls: {

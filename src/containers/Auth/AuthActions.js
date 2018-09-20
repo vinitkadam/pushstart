@@ -12,6 +12,7 @@ import {
     SET_CITY,
     UPDATE_USER_DATA,
 } from '../../actions/types';
+import axios from 'axios';
 
 export const setPhone = (text) => {
     return {
@@ -158,7 +159,16 @@ export const saveUserData = (user, callback) => {
                     });
                 }
             });
-    }
+        const callableAuthToken = firebase.functions().httpsCallable('authtoken');
+
+        callableAuthToken(user)
+        .then(({ data }) => {
+            console.log(data); // hello world
+        })
+        .catch(httpsError => {
+            console.log(httpsError); // invalid-argument
+        })
+    };
 };
 
 export const saveUserInFirestore = (user, callback) => {

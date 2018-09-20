@@ -15,3 +15,6 @@ export const SET_PHONE = 'set_phone';
 export const SET_EMAIL = 'set_email';
 export const SET_CITY = 'set_city';
 export const SET_NAME = 'set_name';
+
+//interests actions
+export const SET_TOP_INTERESTS = 'set_top_interests';
