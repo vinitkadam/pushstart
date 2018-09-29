@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, AsyncStorage, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, AsyncStorage, FlatList, TouchableOpacity, ScrollView, RefreshControl  } from 'react-native';
 import { Button, Icon, Container, Content } from 'native-base';
 import firebase from 'react-native-firebase';
 import { colors } from '../../colors';
@@ -48,6 +48,9 @@ const listData = [
 
 
 class HomeScreen extends Component {
+    state = {
+        refreshing: false,
+    }
     
     componentDidMount() {
         this.setFirstTimeLogin();   
@@ -64,18 +67,38 @@ class HomeScreen extends Component {
     signOut = () => {
         firebase.auth().signOut();
     }
+
+    _onRefresh = () => {
+        this.setState({ refreshing: true });
+
+        // handle refreshing here and then set refresing to true after getting response
+
+        setTimeout(() => {
+            this.setState({ refreshing: false });
+        }, 1000);
+    }
     
     render() {
         return (
             <Container style={styles.container}>
                 <Content
-                showsVerticalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh}
+                            title="Pull to refresh"
+                            tintColor="#fff"
+                            titleColor="#fff"
+                            colors={["purple", "green", "blue"]}
+                        />
+                    }
                 >
                     <View style={styles.topHeader}>
                         <Text style={{ flexShrink: 1, fontSize: 26, fontWeight: 'bold', paddingRight: 0 }}>
                             Live PushEvents
                         </Text>
-                        <View
+                        {/* <View
                             style={{ 
                                 backgroundColor: colors.purple, 
                                 width: 80,
@@ -88,7 +111,7 @@ class HomeScreen extends Component {
                             }}
                         >
                             <Icon name="ios-search" style={{ color: 'white' }} />
-                        </View>
+                        </View> */}
                     </View>
                     <View>
                         <FlatList

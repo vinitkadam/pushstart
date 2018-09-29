@@ -18,3 +18,4 @@ export const SET_NAME = 'set_name';
 
 //interests actions
 export const SET_TOP_INTERESTS = 'set_top_interests';
+export const SET_SELECTED_INTERESTS = 'set_selected_interests';

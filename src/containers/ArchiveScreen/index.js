@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, AsyncStorage, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, RefreshControl, FlatList, TouchableOpacity } from 'react-native';
 import { Button, Icon, Container, Content } from 'native-base';
 import PushTrendsItem from '../HomeScreen/PushTrendsItem';
 import { colors } from '../../colors';
+import PushArchiveItem from './PushArchiveItem';
 
 const pushTrends = [
     {
@@ -23,18 +24,74 @@ const pushTrends = [
         eventDesc: 'Cofounder of Wittyfeed',
         eventHashTag: '#PushAMA',
     }
+];
+
+const pushArchives = [
+    {
+        id: 1,
+        name: 'Push Party kjasbd khsjkbasd kjhasd',
+        date: '2018-09-24T20:31:51+05:30',
+        location: 'Bengaluru',
+        desc: 'Pushparty#3 and details & more content about event and i am writing non sense because i want to test noOfLines param of react native Text element'
+    },
+    {
+        id: 2,
+        name: 'Push Party',
+        date: '2018-09-24T20:31:51+05:30',
+        location: 'Bengaluru',
+        desc: 'Pushparty#3 and details & more content about event and i am writing non sense because i want to test noOfLines param of react native Text element'
+    },
+    {
+        id: 3,
+        name: 'Push Party',
+        date: '2018-09-24T20:31:51+05:30',
+        location: 'Bengaluru',
+        desc: 'Pushparty#3 and details & more content about event and i am writing non sense because i want to test noOfLines param of react native Text element'
+    },
+    {
+        id: 4,
+        name: 'Push Party',
+        date: '2018-09-24T20:31:51+05:30',
+        location: 'Bengaluru',
+        desc: 'Pushparty#3 and details & more content about event and i am writing non sense because i want to test noOfLines param of react native Text element'
+    }
 ]
 
 class ArchiveScreen extends Component {
+    state= {
+        refreshing: false
+    }
+
+    _onRefresh = () => {
+        this.setState({ refreshing: true });
+
+        // handle refreshing here and then set refresing to true after getting response
+
+        setTimeout(() => {
+            this.setState({ refreshing: false });
+        }, 1000);
+    }
     render() {
         return (
             <Container style={styles.container}>
-                <Content>
+                <Content
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh}
+                            title="Pull to refresh"
+                            tintColor="#fff"
+                            titleColor="#fff"
+                            colors={["purple", "green", "blue"]}
+                        />
+                    }
+                >
                     <View style={styles.topHeader}>
                         <Text style={{ flexShrink: 1, fontSize: 26, fontWeight: 'bold', paddingRight: 0 }}>
                             PushTrends
                         </Text>
-                        <View 
+                        {/* <View 
                             style={{ 
                                 backgroundColor: colors.purple, 
                                 width: 80,
@@ -47,7 +104,7 @@ class ArchiveScreen extends Component {
                             }}
                         >
                             <Icon name="ios-search" style={{ color: 'white' }} />
-                        </View>
+                        </View> */}
                     </View>
                     <View>
                         <FlatList
@@ -67,11 +124,12 @@ class ArchiveScreen extends Component {
                             )}    
                         />
                     </View>
-                    {/* <View>
-                        <FlatList 
+                    <View>
+                        <FlatList
+                        numColumns={2}
                             style={{ backgroundColor: 'white', padding: 10 }}
                             keyExtractor={(item, index) => 'item'.concat(index)}
-                            data={pushTrends}
+                            data={pushArchives}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (
                     
@@ -83,7 +141,7 @@ class ArchiveScreen extends Component {
                                 </TouchableOpacity>
                             )}    
                         />
-                    </View> */}
+                    </View>
                 </Content>
             </Container>
         );
@@ -92,13 +150,13 @@ class ArchiveScreen extends Component {
 
 const styles = {
     container: {
-        paddingTop: 35 
     },
     topHeader: {
         flexDirection: 'row',
         paddingLeft: 30,
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 30,
     },
 }
 

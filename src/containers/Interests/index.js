@@ -1,21 +1,133 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, TouchableNativeFeedback, TouchableWithoutFeedback, Image, Dimensions, ImageBackground } from 'react-native';
-import { Container, Icon } from 'native-base';
+import { 
+    Text, 
+    View, 
+    FlatList, 
+    TouchableNativeFeedback, 
+    TouchableWithoutFeedback, 
+    Image, 
+    Animated, 
+    Dimensions, 
+    Alert,
+    TextInput,
+    ActivityIndicator
+} from 'react-native';
+import { Container, Icon, Input, Content, Button } from 'native-base';
 import { colors } from '../../colors';
 import { connect } from 'react-redux';
-import { getTopInterests } from './InterestActions';
-
+import { getTopInterests, setSelectInterests, setUserInterests } from './InterestActions';
+import InterestsItem from './InterestsItem';
+import SelectedInterestsItem from './SelectedInterestsItem';
+import firebase from 'react-native-firebase';
+import * as Animatable from 'react-native-animatable';
 
 class Interests extends Component {
     state = {
-        selectedInterests: []
+        selectedInterests: [],
+        searchResults: []
     }
+
     componentWillMount() {
+        this.wwidth = Dimensions.get('window').width;
+        this.wheight = Dimensions.get('window').height;
         this.props.getTopInterests();
+        this.searchBarLeft = new Animated.Value(this.wwidth);
+        this.headerTextOpacity = new Animated.Value(1);
+        this.searchResultsTop = new Animated.Value(this.wheight);
+    }
+
+    onContinueButtonPress = () => {
+        if (this.state.selectedInterests.length < 5) {
+            Alert.alert(
+                'Please Select atleast 4 interests',
+                '',
+                [
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                { cancelable: false }
+            );
+        } else {
+            this.props.setUserInterests(this.state.selectedInterests, this.props.emailAddress, (nav) => {
+                if (nav === 'app') {
+                    this.props.navigation.navigate('app')
+                } else if (nav === 'after_loader') {
+                    this.props.navigation.navigate('after_loader')
+                } else {
+                    Alert.alert(
+                        'Oops',
+                        'Something went wrong. Please try again later.',
+                        [
+                            { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: false }
+                    );
+                }
+                }
+            );
+        }
+    }
+
+    displaySearchScreen = () => {
+        Animated.parallel([
+            Animated.timing(this.searchBarLeft, {
+                toValue: 30,
+                duration: 500,
+            }),
+            Animated.timing(this.headerTextOpacity, {
+                toValue: 0,
+                duration: 100,
+                useNativeDriver: true
+            }),
+            Animated.timing(this.searchResultsTop, {
+                toValue: 0,
+                duration: 500
+            })
+        ]).start(() => {
+            this.refs.searchInput.focus();
+        });
+    }
+
+    hideSearchScreen = () => {
+        this.refs.searchInput.setNativeProps({text: ''})
+        this.refs.searchInput.blur();
+        this.setState({ searchResults: [] })
+        Animated.parallel([
+            Animated.timing(this.searchBarLeft, {
+                toValue: this.wwidth,
+                duration: 500,
+            }),
+            Animated.timing(this.headerTextOpacity, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: true
+            }),
+            Animated.timing(this.searchResultsTop, {
+                toValue: this.wheight,
+                duration: 1000
+            })
+        ]).start();
+    }
+
+    // search firestore interests
+    makeRemoteRequest = (term) => {
+        const searchTerm = term.charAt(0).toUpperCase() + term.slice(1);
+        firebase
+        .firestore()
+        .collection('interests')
+        .where("description", ">=", searchTerm)
+        .limit(5)
+        .get()
+        .then((docSnapshot) => {
+            console.log('search', docSnapshot.docs);
+            this.setState({ searchResults: docSnapshot.docs });
+        });
     }
 
     toggleInterests(item) {
-        let tmp = this.state.selectedInterests;
+        let tmp = this.props.selectedInterests;
+        console.log("toogle item", item);
         let found = false;
         let i = 0;
         for (i = 0; i < tmp.length; i++) {
@@ -29,114 +141,224 @@ class Interests extends Component {
         } else {
             tmp.push(item);
         }
+        this.props.setSelectInterests(tmp);
         this.setState({
-            selectedInterets: tmp
-        });  
+            selectedInterests: tmp
+        });
+        this.flatList.scrollToEnd({ animated: true });
+        
     }
 
     renderInterests() {
-        
         return (
-            <FlatList
-                style={{ padding: 10 }}
-                data={this.props.topInterests}
-                numColumns={3}
-                keyExtractor={(item, index) => 'interest'.concat(index)}
-                renderItem={({ item }) => {
-                        console.log(item.data());
-                        return (
-                        <TouchableNativeFeedback
-                            background={TouchableNativeFeedback.SelectableBackground()}
-                            onPress={() => { this.toggleInterests(item.data()); }}
-                        >
-                        <View style={styles.item}>
-                            <ImageBackground 
-                                source={require('./images/icon-skills.png')}
-                                style={{ width: 70, height: 70 }}
-                            ></ImageBackground>
-                            <Text style={{ textAlign: 'center' }}>{`${item.data().description}`}</Text>
-                        </View>
-                        </TouchableNativeFeedback>
-                    )}
-                }
-            />
+            <Animatable.View
+                animation="fadeIn"
+                duration={300}
+                iterationCount={1}
+            >
+                <FlatList
+                    style={{ padding: 10 }}
+                    
+                    data={this.props.topInterests}
+                    numColumns={3}
+                    keyExtractor={(item, index) => item.data().code}
+                    renderItem={({ item }) => {
+                            return (
+                                <InterestsItem item={item.data()} toggleInterests={() => { this.toggleInterests(item.data()); }} />
+                        )}
+                    }
+                />
+                {/* search results container */}
+                <Animated.View
+                        style={{
+                            position: 'absolute',
+                            top: this.searchResultsTop,
+                            flex: 1,
+                            width: this.wwidth,
+                            height: this.wheight,
+                            zIndex: 100,
+                            backgroundColor: 'white',
+                            borderColor: '#ededed',
+                            borderTopWidth: 1
+                        }}
+                    >
+                        <FlatList
+                            data={this.state.searchResults}
+                            keyExtractor={(item, index) => 'search'.concat(item.data().code)}
+                            renderItem={({ item }) => {
+                                    return (
+                                        <TouchableNativeFeedback
+                                            onPress={() => { 
+                                                this.toggleInterests(item.data())
+                                            }}
+                                        >
+                                            <View style={{ width: this.wwidth, padding: 15, borderColor: '#ededed', borderBottomWidth: 1 }}>
+                                                <Text>{`${item.data().description}`}</Text>
+                                            </View>
+                                        </TouchableNativeFeedback>
+                                )}
+                            }
+                        />
+                    </Animated.View>
+                </Animatable.View>
         );
     }
 
-    renderSelectedInterests() {
-        
+    renderLoadingInterests() {
         return (
-            <FlatList
-                style={{ padding: 10 }}
-                data={this.state.selectedInterests}
-                horizontal
-                keyExtractor={(item, index) => 'interest'.concat(index)}
-                renderItem={({ item }) => {
-                        console.log(item);
-                        return (
-                        <TouchableWithoutFeedback
-                            background={TouchableNativeFeedback.SelectableBackground()}
-                            onPress={() => { this.toggleInterests(item); }}
-                        >
-                        <View style={styles.item}>
-                            <ImageBackground 
-                                source={require('./images/icon-skills.png')}
-                                style={{ width: 40, height: 40 }}
-                            >
-                            </ImageBackground>
-                            <Text style={{ textAlign: 'center' }}>{`${item.description}`}</Text>
-                        </View>
-                        </TouchableWithoutFeedback>
-                    )}
-                }
-            />
-        );
+            <View
+                style={{ alignItems: 'center', justifyContent: 'center' }}
+            >
+                <Text>Loading Top Interests</Text>
+                <ActivityIndicator
+                    style={{ marginTop: 15 }}
+                    size="large"
+                    color={colors.purple}
+                />
+            </View>
+        )
     }
+
     render() {
+
         console.log("topInteretsts", this.props.topInterests);
         console.log('interestsLoaded', this.props.interestsLoaded);
+        console.log('render selected interests', this.props.selectedInterests);
         return (
-            <Container style={{ paddingTop: 40 }}>
-                <View style={styles.topHeader}>
-                    <Text style={{ flexShrink: 1, fontSize: 26, fontWeight: 'bold', paddingRight: 0 }}>
-                        Choose Your Interests
-                    </Text>
-                    <View 
+            <Container style={{ flex: 1 }}>
+                <Content>
+                    <View style={styles.topHeader}>
+                    <Animated.View
+                        style={{
+                            opacity: this.headerTextOpacity,
+                            flexShrink: 1,
+                            paddingRight: 0,
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontSize: 26, 
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Choose Your Interests
+                        </Text>
+                    </Animated.View>
+                    <TouchableWithoutFeedback
+                        onPress={() => this.displaySearchScreen()}
+                    >                    
+                    <Animated.View                        
                         style={{ 
                             backgroundColor: colors.purple, 
                             width: 80,
-                            height: 45, 
+                            height: 50, 
                             justifyContent: 'center', 
                             alignItems: 'center',
                             borderBottomLeftRadius: 20,
                             borderTopLeftRadius: 20,
                             marginRight: 0,
+                            zIndex: 100,
+                            opacity: this.headerTextOpacity,
                         }}
                     >
+
                         <Icon name="ios-search" style={{ color: 'white' }} />
-                    </View>
+                    </Animated.View>
+                    </TouchableWithoutFeedback>
+
+                    {/* search input */}
+                    <Animated.View
+                        style={{ 
+                             
+                            position: 'absolute', 
+                            left: this.searchBarLeft, 
+                            height: 50,
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+
+                        }}
+                    > 
+                        <TextInput 
+                            ref="searchInput"
+                            style={{
+                                width: this.wwidth - 120,
+                            }}
+                            onChangeText={this.makeRemoteRequest}
+                            underlineColorAndroid="transparent"
+                        />
+                        <TouchableWithoutFeedback
+                            onPress={() => this.hideSearchScreen()}
+                        >                    
+                            <View
+                                
+                                style={{ 
+                                    width: 80,
+                                    height: 50, 
+                                    justifyContent: 'center', 
+                                    alignItems: 'center',
+                                    borderBottomLeftRadius: 20,
+                                    borderTopLeftRadius: 20,
+                                    marginRight: 0,
+                                    zIndex: 100,
+                                }}
+                            >
+
+                                <Icon name="ios-close-circle-outline" style={{ color: 'grey', fontSize: 26 }} />
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </Animated.View>
+
+                    
                 </View>
                 
                 <Text style={{ color: '#807d83', fontSize: 16, marginLeft: 30, marginTop: 10 }}>Select minimum 5 interests</Text>
                 <View style={{ height: 120 }}>
-                    {this.renderSelectedInterests()}
-                </View>            
-                {this.props.interestsLoaded === 'true' && this.renderInterests()}
+                    <FlatList
+                        showsHorizontalScrollIndicator={false}
+                        ref={ref => this.flatList = ref}
+                        style={{ padding: 10 }}
+                        data={this.props.selectedInterests}
+                        horizontal
+                        keyExtractor={(item, index) => item.code}
+                        renderItem={({ item }) => {
+                                console.log(item);
+                                return (
+                                    <SelectedInterestsItem item={item} toggleInterests={() => { this.toggleInterests(item); }} />
+                            )}
+                        }
+                    />
+                </View>
+                <View
+                    style={{ 
+                        height: 300,
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    
+                    }}
+                >
+                    {this.props.interestsLoaded === 'true' && this.renderInterests()}
+                    {this.props.interestsLoaded === 'false' && this.renderLoadingInterests()}
+                </View>
                 
+                
+                <Button style={styles.continueButton} onPress={this.onContinueButtonPress}>
+                        <Text style={styles.continueButtonText} >Continue</Text>
+                    </Button>
+                </Content>
             </Container>
         );
     }
 }
 
-const { height, width } = Dimensions.get('window');
-const gridwidth = (width / 3) - (80 / 3);
+const win = Dimensions.get('window');
+const gridwidth = (this.wwidth / 3) - (80 / 3);
 
 const styles = {
     topHeader: {
         flexDirection: 'row',
         paddingLeft: 30,
         justifyContent: 'space-between',
-        alignItems: 'center'
+        marginTop: 30,
     },
     list: {
         flexDirection: 'row',
@@ -150,13 +372,37 @@ const styles = {
         borderRadius: 4,
         // backgroundColor: 'red'
     },
+    continueButton: {
+        backgroundColor: colors.darkpurple,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
+        height: 60,
+        margin: 15,
+        width: win.width - 30,
+        borderRadius: 8,
+        elevation: 5,
+        shadowColor: 'rgba(134, 94, 208, 0.42)',
+        shadowOffset: { height: 5, width: 3 },
+        shadowOpacity: 1.0,
+        shadowRadius: 6,
+
+    },
+    continueButtonText: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 22,
+        marginVertical: 20
+    }
 };
 
 const mapStateToProps = state => {
     return {
         topInterests: state.interests.topInterests,
         interestsLoaded: state.interests.interestsLoaded,
+        selectedInterests: state.interests.selectedInterests,
+        emailAddress: state.auth.emailAddress,
     };
 };
 
-export default connect(mapStateToProps, { getTopInterests })(Interests);
+export default connect(mapStateToProps, { getTopInterests, setSelectInterests, setUserInterests })(Interests);

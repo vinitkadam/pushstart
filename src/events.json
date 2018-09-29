@@ -1,0 +1,23 @@
+[
+    {
+        docName: '',
+        name: '',
+        cost: 0,
+        currency: 'INR',
+        description: '',
+        start_time: '',
+        end_time: '',
+        fb_link: '',
+        header_url: '',
+        is_live: false,
+        location: {
+            city: '',
+            country: 'India',
+            geopoint: [],
+            street: '',
+            zip: 
+        },
+        status: 'active',
+        type: 'ps_connect'
+    }
+]

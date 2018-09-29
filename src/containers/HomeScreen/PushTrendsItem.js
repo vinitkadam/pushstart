@@ -1,21 +1,55 @@
 import React, { Component} from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, Animated, TouchableWithoutFeedback } from 'react-native';
 import { Card } from 'native-base';
 import { colors } from '../../colors';
 
 class PushTrendsItem extends Component {
+    
+    state = { 
+        animatePress: new Animated.Value(1)
+    }
+
+    animateIn() {
+        Animated.timing(this.state.animatePress, {
+            toValue: 0.96,
+            duration: 100,
+            useNativeDriver: true
+        }).start();
+    }
+
+    animateOut() {
+        Animated.timing(this.state.animatePress, {
+            toValue: 1,
+            duration: 100,
+            useNativeDriver: true
+        }).start();
+    }
+    
     render() {
         const { eventName, eventSpeaker, eventDesc, eventHashTag } = this.props.data;
         return (
-            <View style={styles.container}>
-                <Image source={require('./images/pt_1.png')} style={styles.imageStyle}/>
-                <View style={styles.eventDescContainer}>
-                    <Text style={styles.serviceName}>{eventHashTag}</Text>
-                    <Text style={styles.serviceName}>{eventName}</Text>
-                    <Text style={styles.serviceName}>{eventSpeaker}</Text>
-                    <Text style={styles.serviceName}>{eventDesc}</Text>
-                </View>
-            </View>
+            <TouchableWithoutFeedback
+                onPressIn={() => this.animateIn()}
+                onPressOut={() => this.animateOut()}
+            >
+                <Animated.View 
+                    style={[styles.container, {
+                        transform: [
+                            {
+                                scale: this.state.animatePress
+                            }
+                        ]
+                    }]}
+                >
+                    <Image source={require('./images/pt_1.png')} style={styles.imageStyle}/>
+                    <View style={styles.eventDescContainer}>
+                        <Text style={styles.serviceName}>{eventHashTag}</Text>
+                        <Text style={styles.serviceName}>{eventName}</Text>
+                        <Text style={styles.serviceName}>{eventSpeaker}</Text>
+                        <Text style={styles.serviceName}>{eventDesc}</Text>
+                    </View>
+                </Animated.View>
+            </TouchableWithoutFeedback>
         );
     }
 }

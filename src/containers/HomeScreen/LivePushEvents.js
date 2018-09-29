@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { Text, View, Image, ImageBackground } from 'react-native';
+import { Text, View, Image, ImageBackground, Animated, TouchableWithoutFeedback } from 'react-native';
 import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Octicons';
 import { colors } from '../../colors';
@@ -16,18 +16,52 @@ const LiveImage = () => {
 }
 
 class LivePushEvents extends Component {
+    
+    state = { 
+        animatePress: new Animated.Value(1)
+    }
+
+    animateIn() {
+        Animated.timing(this.state.animatePress, {
+            toValue: 0.96,
+            duration: 100,
+            useNativeDriver: true
+        }).start();
+    }
+
+    animateOut() {
+        Animated.timing(this.state.animatePress, {
+            toValue: 1,
+            duration: 100,
+            useNativeDriver: true
+        }).start();
+    }
+
     render() {
         const { eventName, eventSpeaker, eventDesc, eventHashTag } = this.props.data;
         return (
-            <View style={styles.container}>
-                <LiveImage />
-                <View style={styles.eventDescContainer}>
-                    <Text style={styles.serviceName}>{eventHashTag}</Text>
-                    <Text style={styles.serviceName}>{eventName}</Text>
-                    <Text style={styles.serviceName}>{eventSpeaker}</Text>
-                    <Text style={styles.serviceName}>{eventDesc}</Text>
-                </View>
-            </View>
+            <TouchableWithoutFeedback
+                onPressIn={() => this.animateIn()}
+                onPressOut={() => this.animateOut()}
+            >
+                <Animated.View 
+                    style={[styles.container, {
+                        transform: [
+                            {
+                                scale: this.state.animatePress
+                            }
+                        ]
+                    }]}
+                >
+                    <LiveImage />
+                    <View style={styles.eventDescContainer}>
+                        <Text style={styles.serviceName}>{eventHashTag}</Text>
+                        <Text style={styles.serviceName}>{eventName}</Text>
+                        <Text style={styles.serviceName}>{eventSpeaker}</Text>
+                        <Text style={styles.serviceName}>{eventDesc}</Text>
+                    </View>
+                </Animated.View>
+            </TouchableWithoutFeedback>
         );
     }
 }
@@ -59,7 +93,6 @@ const styles = {
     },
     eventDescContainer: {
         padding: 10,
-        paddingHorizontal: 14,
     }
 };
 

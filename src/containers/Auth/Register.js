@@ -15,16 +15,17 @@ class Register extends Component {
         NetInfo.isConnected.fetch().then(isConnected => {
             if (isConnected) {
                 if (this.validateInputs()) {
+                    const countryCodePhoneNumber = '+91' + phoneNumber;
                     this.props.saveUserInFirestore(
                         {
                             name, 
-                            phoneNumber: '+91'.concat(phoneNumber),
+                            phoneNumber: countryCodePhoneNumber,
                             city,
                             emailAddress,
                         },
                         (navigate) => {
-                            if (navigate === 'app') {
-                                this.props.navigation.navigate('app');
+                            if (navigate === 'interests') {
+                                this.props.navigation.navigate('interests');
                             } else {
                                 this.alertComponent('Something went wrong. Please try again later.');
                             }
@@ -179,6 +180,7 @@ const styles = {
         shadowOffset: { height: 5, width: 3 },
         shadowOpacity: 1.0,
         shadowRadius: 6,
+        alignSelf: 'flex-end'
 
     },
     continueButtonText: {

@@ -99,7 +99,7 @@ const MainNavigator = createStackNavigator({
     )
 },{
     // initialRouteName: 'login',
-    initialRouteName: 'splashScreen',
+    initialRouteName: 'interests',
     headerMode: 'none',
     navigationOptions: {
 

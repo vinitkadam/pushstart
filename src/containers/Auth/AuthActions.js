@@ -116,7 +116,7 @@ export const saveUserData = (user, callback) => {
                 console.log('docSnapShot', docSnapshot);
                 if (docSnapshot.exists) {
                     dispatch({ type: SET_USER_DATA, payload: { user: docSnapshot.data(), loading: false } });
-                    if (docSnapshot.data().phoneNumber){
+                    if (docSnapshot.data().interests) {
                         callback('app');
                     } else {
                         callback('after_loader');
@@ -159,15 +159,28 @@ export const saveUserData = (user, callback) => {
                     });
                 }
             });
-        const callableAuthToken = firebase.functions().httpsCallable('authtoken');
+            
+        const callableAuthToken = firebase.functions().httpsCallable('authToken');
 
         callableAuthToken(user)
-        .then(({ data }) => {
+        .then((data) => {
             console.log(data); // hello world
         })
         .catch(httpsError => {
             console.log(httpsError); // invalid-argument
-        })
+        });
+
+        // axios({
+        //     method: 'post',
+        //     url: 'https://us-central1-pushstart-38483.cloudfunctions.net/authtoken',
+        //     data: user
+        // })
+        // .then(data => {
+        //     console.log(data);
+        // })
+        // .catch(error => {
+        //     console.log(error);
+        // });
     };
 };
 
@@ -180,7 +193,7 @@ export const saveUserInFirestore = (user, callback) => {
             city: user.city
         }, { merge: true })
         .then(() => {
-            callback('app');
+            callback('interests');
         })
         .catch(() => {
             callback('error');
