@@ -9,6 +9,7 @@ import {
     SET_PHONE,
     SET_CITY,
     UPDATE_USER_DATA,
+    SET_SELECTED_INTERESTS,
 } from '../../actions/types';
 
 const INITIAL_STATE = {
@@ -38,6 +39,7 @@ const INITIAL_STATE = {
     name: 'Name',
     headline: 'headline',
     industry: '',
+    interests: [],
     numConnections: 0,
     pictureUrls: {
         values: [
@@ -68,10 +70,27 @@ export default (state = INITIAL_STATE, action) => {
         case SET_LOADING:
             return { ...state, loading: action.payload.loading };
         case SET_USER_DATA:
-            return { ...state, user: action.payload.user, loading: action.payload.loading };
+            return { ...state, 
+                user: action.payload.user, 
+                loading: action.payload.loading,
+                interests: action.payload.user.interests,
+                linkedInId: action.payload.user.id,
+                firstName: action.payload.user.firstName,
+                lastName: action.payload.user.lastName,
+                name: action.payload.user.name,
+                headline: action.payload.user.headline,
+                industry: action.payload.user.industry,
+                numConnections: action.payload.user.numConnections,
+                pictureUrls: action.payload.user.pictureUrls,
+                positions: action.payload.user.pictureUrls,
+                summary: action.payload.user.summary,
+                location: action.payload.user.location,
+                emailAddress: action.payload.user.emailAddress,
+            };
         case SET_CONFIRM_RESULT:
             return { ...state, confirmResult: action.payload.confirmResult };
         case SAVE_USER_DATA:
+            console.log("SAVE_USER_DATA")
             return { ...state, 
                 user: action.payload,
                 linkedInId: action.payload.id,
@@ -93,6 +112,9 @@ export default (state = INITIAL_STATE, action) => {
                 phoneNumber: action.payload.phoneNumber,
                 city: action.payload.city,
             };
+        case SET_SELECTED_INTERESTS:
+            console.log(action.payload);
+            return { ...state, interests: action.payload };
         default:
             return state;
     }

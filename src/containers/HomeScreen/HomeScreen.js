@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, AsyncStorage, FlatList, TouchableOpacity, ScrollView, RefreshControl  } from 'react-native';
+import { Text, View, AsyncStorage, FlatList, TouchableOpacity, ScrollView, RefreshControl, StatusBar  } from 'react-native';
 import { Button, Icon, Container, Content } from 'native-base';
 import firebase from 'react-native-firebase';
 import { colors } from '../../colors';
@@ -81,6 +81,10 @@ class HomeScreen extends Component {
     render() {
         return (
             <Container style={styles.container}>
+                <StatusBar
+                    backgroundColor={colors.darkpurple}
+                    barStyle="light-content"
+                />
                 <Content
                     showsVerticalScrollIndicator={false}
                     refreshControl={
@@ -95,7 +99,7 @@ class HomeScreen extends Component {
                     }
                 >
                     <View style={styles.topHeader}>
-                        <Text style={{ flexShrink: 1, fontSize: 26, fontWeight: 'bold', paddingRight: 0 }}>
+                        <Text style={{ flexShrink: 1, fontSize: 26, fontWeight: 'bold', paddingRight: 0, fontFamily: 'Poppins-Medium' }}>
                             Live PushEvents
                         </Text>
                         {/* <View

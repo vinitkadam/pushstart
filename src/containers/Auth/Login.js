@@ -236,9 +236,10 @@
 
 import React, { Component } from 'react';
 import { Text, View, Dimensions, Image, Platform, ActivityIndicator, Alert } from 'react-native';
-import { Button } from 'native-base';
+import { Button, Icon, Content } from 'native-base';
 import LinkedInModal from 'react-native-linkedin';
 import { connect } from 'react-redux';
+import EntypoIcons from 'react-native-vector-icons/Entypo'
 
 import { saveUserData } from './AuthActions';
 
@@ -306,12 +307,13 @@ class Login extends Component {
         const { emailAddress, refreshing } = this.state;
         return (
             <View style={styles.container}>
+                <Content>
                 {!emailAddress &&
                     !refreshing && (
-                        <View style={[styles.container, { paddingTop: 0 }]}>
+                        <View style={[styles.innerContainer, { paddingTop: 0 }]}>
                             <View style={{ marginHorizontal: 40 }}>
                                 <Text style={styles.heading}>Join Pushstart</Text>
-                                <Text>Join the amazing community of Entrepreneurs.</Text>
+                                <Text style={{ fontFamily: 'Poppins-Light' }}>Join the amazing community of Entrepreneurs.</Text>
                             </View>
                             <Image 
                                 source={require('./images/login.png')}
@@ -328,8 +330,9 @@ class Login extends Component {
                                 onSuccess={data => this.getUser(data)}
                                 renderButton={() => {
                                     return (
-                                        <Button style={styles.buttonStyle} onPress={() => this.modal.open()}>
-                                            <Text style={{ color: 'white', fontSize: 18 }}>Login with Linkedin</Text>
+                                        <Button iconLeft style={styles.buttonStyle} onPress={() => this.modal.open()}>
+                                            <EntypoIcons name="linkedin" style={{ color: 'white', fontSize: 20, marginRight: 10 }}/>
+                                            <Text style={{ color: 'white', fontSize: 16, fontFamily: 'Poppins-Medium' }}>Login with Linkedin</Text>
                                         </Button>
                                     );
                                 }}
@@ -343,7 +346,7 @@ class Login extends Component {
                 }
 
                 {refreshing && <ActivityIndicator size="large" />}
-
+                </Content>
             </View>
         );
     }
@@ -360,12 +363,18 @@ const styles = {
         paddingTop: Platform.OS === 'android' ? 24 : 0,
         justifyContent: 'space-around',
     },
-
+    innerContainer: {
+        backgroundColor: 'white',
+        marginTop: 24,
+        justifyContent: 'space-around',
+    },
     heading: {
+        fontFamily: 'Poppins-Medium',
         fontWeight: 'bold',
         fontSize: 24,
     },
     desc: {
+        fontFamily: 'Poppins-Light',
         fontSize: 16,
         color: 'grey'
     },
@@ -374,6 +383,7 @@ const styles = {
         height: 1087 * ratio1,
     },
     buttonStyle: {
+        backgroundColor: '#3d83d9',
         alignSelf: 'center',
         width: win.width - 80,
         alignItems: 'center',
@@ -381,7 +391,8 @@ const styles = {
         borderRadius: 8
     },
     bottomText: {
-        fontSize: 14, 
+        fontFamily: 'Poppins-Light',
+        fontSize: 12, 
         color: 'grey',
         width: win.width - 120,
         alignSelf: 'center',

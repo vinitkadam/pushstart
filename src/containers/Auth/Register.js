@@ -45,12 +45,15 @@ class Register extends Component {
     }
 
     validateInputs() {
-        const { phoneNumber, name } = this.props;
+        const { phoneNumber, name, city } = this.props;
         if (name.length === 0) {
             this.alertComponent('Please enter your name');
             return false;
         } else if (!Validator.isNumeric(phoneNumber) || phoneNumber.length !== 10) {
             this.alertComponent('Enter a valid phone number');
+            return false;
+        } else if (city.length === 0) {
+            this.alertComponent('Please enter your name');
             return false;
         }
         return true;
@@ -80,8 +83,8 @@ class Register extends Component {
                     />
                     <View style={styles.formStyle}>
                         <Item stackedLabel style={styles.formItem}>
-                            <Label>Name</Label>
-                            <Input 
+                            <Label style={styles.label}>Name</Label>
+                            <Input
                                 underline={false} 
                                 value={this.props.name}
                                 onChangeText={(text) => { this.props.setName(text); }}
@@ -89,7 +92,7 @@ class Register extends Component {
                         </Item>
 
                         <Item stackedLabel style={styles.formItem}>
-                            <Label>Email Address</Label>
+                            <Label style={styles.label}>Email Address</Label>
                             <Input 
                                 underline={false} 
                                 value={this.props.emailAddress}
@@ -98,7 +101,7 @@ class Register extends Component {
                         </Item>
 
                         <Item stackedLabel style={styles.formItem}>
-                            <Label>Phone Number</Label>
+                            <Label style={styles.label}>Phone Number</Label>
                             <Input 
                                 underline={false} 
                                 value={this.props.phoneNumber}
@@ -109,7 +112,7 @@ class Register extends Component {
                         </Item>
 
                         <Item stackedLabel style={styles.formItem}>
-                            <Label>City</Label>
+                            <Label style={styles.label}>City</Label>
                             <Input
                                 underline={false} 
                                 value={this.props.city}
@@ -141,6 +144,7 @@ const styles = {
     contentContainer: {
     },
     title: {
+        fontFamily: 'Poppins-Medium',
         color: '#2a3455',
         fontSize: 24,
         marginHorizontal: 30,
@@ -188,6 +192,12 @@ const styles = {
         textAlign: 'center',
         fontSize: 22,
         marginVertical: 20
+    },
+    label: {
+        fontFamily: 'Poppins-Light',
+        fontSize: 14,
+        color: '#807d83',
+
     }
 };
 

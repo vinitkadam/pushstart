@@ -9,7 +9,7 @@ const LiveImage = () => {
         <ImageBackground source={require('./images/pt_1.png')} style={styles.imageStyle}>
             <View style={{ backgroundColor: 'red', flexDirection: 'row', padding: 2, paddingHorizontal: 5, position: 'absolute', bottom: 0, right: 0 }}>
                 <Icon name="primitive-dot" style={{ color: 'white', fontSize: 20 }} />
-                <Text style={{ color: 'white' }}>LIVE</Text>
+                <Text style={{ color: 'white', fontFamily: 'Poppins-Medium' }}>LIVE</Text>
             </View>
         </ImageBackground>
     )
@@ -55,10 +55,10 @@ class LivePushEvents extends Component {
                 >
                     <LiveImage />
                     <View style={styles.eventDescContainer}>
-                        <Text style={styles.serviceName}>{eventHashTag}</Text>
-                        <Text style={styles.serviceName}>{eventName}</Text>
-                        <Text style={styles.serviceName}>{eventSpeaker}</Text>
-                        <Text style={styles.serviceName}>{eventDesc}</Text>
+                        <Text style={styles.hashTag}>{eventHashTag}</Text>
+                        <Text style={styles.eventName}>{eventName}</Text>
+                        <Text style={styles.eventSpeaker}>{eventSpeaker}</Text>
+                        <Text style={styles.eventDesc}>{eventDesc}</Text>
                     </View>
                 </Animated.View>
             </TouchableWithoutFeedback>
@@ -87,12 +87,29 @@ const styles = {
         width: 250
     },
     serviceName: {
+        fontFamily: 'Poppins-Light',
         paddingTop: 5,
         fontSize: 14,
         color: 'grey'
     },
     eventDescContainer: {
         padding: 10,
+    },
+    hashTag: {
+        fontFamily: 'Poppins-Light',
+        fontSize: 10,
+    },
+    eventName: {
+        fontFamily: 'Poppins-Medium',
+        fontSize: 14,
+    },
+    eventSpeaker: {
+        fontFamily: 'Poppins-Light',
+        fontSize: 10
+    },
+    eventDesc: {
+        fontFamily: 'Poppins-Light',
+        fontSize: 10
     }
 };
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, Image, Dimensions } from 'react-native';
-import { Container, Content, Card } from 'native-base';
+import { Text, View, ScrollView, Image, Dimensions, FlatList } from 'react-native';
+import { Container, Content, Button } from 'native-base';
 import { connect } from 'react-redux';
+import { colors } from '../../colors';
 
 const HEADER_MAX_HEIGHT = 120;
 const HEADER_MIN_HEIGHT = 60;
@@ -11,7 +12,34 @@ const PROFILE_IMAGE_MIN_HEIGHT = 60;
 const win = Dimensions.get('window');
 
 class ProfileScreen extends Component {
+    
+    renderInterests(interests){
+        return (
+            <FlatList
+                showsVerticalScrollIndicator={false}
+                numColumns={6}
+                style={{ padding: 10 }}
+                data={interests}
+                keyExtractor={(item, index) => item.code}
+                renderItem={({ item }) => {
+                    console.log(item);
+                        return (
+                            <View
+                                style={styles.item}
+                            >
+                                <Image 
+                                    source={require('../Interests/images/icon-skills.png')}
+                                    style={{ width: 50, height: 50 }}
+                                />
+                                <Text numberOfLines={2}  style={{ textAlign: 'center' }}>{`${item.description}`}</Text>
+                            </View>
+                    );
+                }}
+            />
+        )
+    }
     render() {
+        console.log(this.props.interests);
         return (
             <View style={{ flex: 1 }}>
                 <Content>
@@ -38,10 +66,37 @@ class ProfileScreen extends Component {
                     <View style={styles.card1}>    
                         <Text style={styles.name}>{`${this.props.name}`}</Text>
                         <Text style={styles.headline}>{`${this.props.headline}`}</Text>
-                        <Text style={styles.summary}>{`${this.props.summary}`}</Text>
                     </View>
                     <View style={styles.card2}>
-                        <Text style={{ color: '#2a3455', fontSize: 18, fontWeight: '500' }}>Interests</Text>
+                        <Text style={{ color: '#2a3455', fontSize: 18, fontWeight: '500', margin: 10 }}>Interests</Text>
+                        <FlatList
+                            showsVerticalScrollIndicator={false}
+                            numColumns={3}
+                            style={{ padding: 10 }}
+                            data={this.props.interests}
+                            keyExtractor={(item, index) => item.code}
+                            renderItem={({ item }) => {
+                                console.log(item);
+                                    return (
+                                        <View
+                                            style={styles.item}
+                                        >
+                                            <Image 
+                                                source={require('../Interests/images/icon-skills.png')}
+                                                style={{ width: 50, height: 50 }}
+                                            />
+                                            <Text numberOfLines={2}  style={{ textAlign: 'center', fontFamily: 'Poppins-Medium' }}>{`${item.description}`}</Text>
+                                        </View>
+                                );
+                            }}
+                        />
+                    </View>
+
+                    <View style={styles.card2}>
+                        <Text style={{ color: '#2a3455', fontSize: 18, fontWeight: '500', margin: 10 }}>Expertise</Text>
+                        <Button bordered style={{ borderColor: colors.purple, padding: 10, margin: 10, borderRadius: 8 }}>
+                            <Text style={{ fontFamily: 'Poppins-Medium' }}>{this.props.industry}</Text>
+                        </Button>
                     </View>
                     
                 </Content>
@@ -50,22 +105,25 @@ class ProfileScreen extends Component {
     }
 }
 
+
 const styles = {
     name: {
-        fontSize: 20, 
-        fontWeight: 'bold', 
+        fontFamily: 'Poppins-Medium',
+        fontSize: 20,
         alignSelf: 'center', 
         textAlign: 'center', 
         color: 'black',
         marginTop: 10,
     },
     headline: {
+        fontFamily: 'Poppins-Light',
         fontSize: 14,
         textAlign: 'center',
         color: '#807d83',
         marginTop: 5
     },
     card1: {
+        fontFamily: 'Poppins-Regular',
         paddingTop: 70,
         backgroundColor: 'white',
         marginTop: -68,
@@ -83,8 +141,15 @@ const styles = {
     },
     card2: {
         backgroundColor: 'white',
-        padding: 10,
-    }
+        marginBottom: 10,
+    },
+    item: {
+        marginVertical: 10,
+        width: (win.width / 3) - 7,
+        alignItems: 'center',
+        borderRadius: 4,
+        // backgroundColor: 'red'
+    },
 }
 
 const mapStateToProps = (state) => {
@@ -93,6 +158,8 @@ const mapStateToProps = (state) => {
         headline: state.auth.headline,
         name: state.auth.name,
         summary: state.auth.summary,
+        interests: state.auth.interests,
+        industry: state.auth.industry,
     };
 };
 

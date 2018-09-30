@@ -1,9 +1,8 @@
-import { Image, View, Dimensions, ImageBackground } from 'react-native';
+import { Image, View, Dimensions, ImageBackground, Text } from 'react-native';
 import React from 'react';
 
 import { Button, Icon } from 'native-base';
 
-// import { Button } from 'react-native-elements';
 
 import Onboarding from 'react-native-onboarding-swiper'; // Version can be specified in package.json
 
@@ -34,9 +33,9 @@ const Done = ({ isLight, ...props }) => (
   <Button
     style={{
       backgroundColor: '#865ed0',
-      height: 70,
-      width: 70,
-      borderRadius: 35,
+      height: 60,
+      width: 60,
+      borderRadius: 30,
       alignSelf: 'flex-end',
       alignItems: 'center',
       justifyContent: 'center'
@@ -51,9 +50,9 @@ const Next = ({ isLight, ...props }) => (
   <Button
     style={{
       backgroundColor: '#865ed0',
-      height: 70,
-      width: 70,
-      borderRadius: 35,
+      height: 60,
+      width: 60,
+      borderRadius: 30,
       alignSelf: 'flex-end',
       alignItems: 'center',
       justifyContent: 'center',
@@ -87,6 +86,17 @@ const styles = {
   img3: {
     width: win.width + 2,
     height: 960 * ratio3,
+  },
+  title: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 20,
+    paddingHorizontal: 20,
+  },
+  desc: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 14,
+    paddingHorizontal: 20,
+    lineHeight: 20,
   }
 };
 
@@ -97,7 +107,7 @@ export default class OnboardingScreen extends React.Component {
       <Onboarding
         onDone={() => { this.props.navigation.navigate('login'); }}
         showSkip={false}
-        bottomBarHeight={120}
+        bottomBarHeight={80}
         bottomBarHighlight={false}
         DotComponent={Square}
         NextButtonComponent={Next}
@@ -106,20 +116,20 @@ export default class OnboardingScreen extends React.Component {
           {
             backgroundColor: '#fff',
             image: <ImageBackground style={styles.img1} source={require('./images/one.png')} />,
-            title: 'Hello PushStarters',
-            subtitle: 'Welcome to India’s most active community for Entrepreneur’s',
+            title: <Text style={styles.title}>Hello PushStarters</Text>,
+            subtitle: <Text style={styles.desc}>Welcome to India’s most active community for Entrepreneur’s</Text>,
           },
           {
             backgroundColor: '#fff',
             image: <Image style={styles.img2} source={require('./images/two.png')} />,
-            title: 'Get Relevent Content ',
-            subtitle: 'Get notified about relevant content from Pushstart anytime, anywhere',
+            title: <Text style={styles.title}>Get Relevent Content</Text>,
+            subtitle: <Text style={styles.desc}>Get notified about relevant content from Pushstart anytime, anywhere</Text>,
           },
           {
             backgroundColor: '#fff',
             image: <Image style={styles.img3} source={require('./images/three.png')} />,
-            title: 'Archive Access',
-            subtitle: 'Access Relevent content from our Archive anytime, anywhere',
+            title: <Text style={styles.title}>Archive Access</Text>,
+            subtitle: <Text style={styles.desc}>Access Relevent content from our Archive anytime, anywhere</Text>,
           },
         ]}
       />

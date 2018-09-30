@@ -88,10 +88,10 @@ class ArchiveScreen extends Component {
                     }
                 >
                     <View style={styles.topHeader}>
-                        <Text style={{ flexShrink: 1, fontSize: 26, fontWeight: 'bold', paddingRight: 0 }}>
+                        <Text style={{ flexShrink: 1, fontSize: 26, fontWeight: 'bold', paddingRight: 0, fontFamily: 'Poppins-Medium' }}>
                             PushTrends
                         </Text>
-                        {/* <View 
+                        {/* <View
                             style={{ 
                                 backgroundColor: colors.purple, 
                                 width: 80,

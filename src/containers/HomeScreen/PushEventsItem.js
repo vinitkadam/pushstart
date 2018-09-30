@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, Animated, TouchableWithoutFeedback } from 'react-native';
 import { Card } from 'native-base';
 import moment from 'moment'
+import { colors } from '../../colors';
 
 export default class PushEventsItem extends Component {
     state = { 
@@ -42,11 +43,11 @@ export default class PushEventsItem extends Component {
                         ]
                     }]}>
                 <View style={{ padding: 10 }}>
-                    <Text>{eventHashTag}</Text>
-                    <Text>{eventName}</Text>
-                    <Text>{eventSpeaker}</Text>
-                    <Text>{eventDesc}</Text>
-                    <Text>{formatedDate}</Text>
+                    <Text style={styles.eventHashTag}>{eventHashTag}</Text>
+                    <Text style={styles.eventName}>{eventName}</Text>
+                    <Text style={styles.eventSpeaker}>{eventSpeaker}</Text>
+                    <Text style={styles.eventDesc}>{eventDesc}</Text>
+                    <Text style={styles.formatedDate}>{formatedDate}</Text>
                 </View>
                 <Image source={require('./images/ps_launch.png')} style={{ width: 42, height: 60, justifyContent: 'flex-end' }} />
             </Animated.View>
@@ -69,5 +70,26 @@ const styles = {
         shadowOpacity: 0.1,
         shadowRadius: 1.5,
         elevation: 3
+    },
+    eventHashTag: {
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: 14
+    },
+    eventName: {
+        fontFamily: 'Poppins-Regular',
+        fontSize: 16,
+        color: colors.purple
+    },
+    eventSpeaker: {
+        fontFamily: 'Poppins-Regular',
+        fontSize: 10
+    },
+    eventDesc: {
+        fontFamily: 'Poppins-Regular',
+        fontSize: 10
+    },
+    formatedDate: {
+        fontFamily: 'Poppins-Medium',
+        fontSize: 10
     }
 }

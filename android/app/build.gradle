@@ -157,6 +157,10 @@ dependencies {
     transitive = false
   }
 
+  implementation(project(':react-native-splash-screen')){
+    transitive = false
+  }
+
   implementation('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
     transitive = true
   }

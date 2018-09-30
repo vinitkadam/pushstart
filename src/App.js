@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import codePush from 'react-native-code-push';
+import SplashScreen from 'react-native-splash-screen';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -9,6 +10,11 @@ import reducers from './reducers';
 
 
 class App extends Component {
+
+  componentDidMount() {
+    SplashScreen.hide()
+  }
+
   render() {
     const store = createStore(
       reducers,

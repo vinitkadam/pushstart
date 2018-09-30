@@ -50,7 +50,7 @@ class SelectedInterestsItem extends Component {
                         }]}
                     >
                         <ImageContainer />
-                        <Text numberOfLines={2} style={{ textAlign: 'center' }}>{item.description}</Text>
+                        <Text numberOfLines={2} style={{ textAlign: 'center', fontFamily: 'Poppins-Light', fontSize: 10 }}>{item.description}</Text>
                     </Animated.View>
                 </Animatable.View>
             </TouchableWithoutFeedback>

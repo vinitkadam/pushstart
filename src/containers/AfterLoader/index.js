@@ -38,12 +38,13 @@ const styles = {
         marginBottom: 15,
     },
     name: {
-        color: 'black',
+        fontFamily: 'Poppins-Medium',
+        color: '#2a3455',
         fontSize: 20,
-        fontWeight: 'bold',
         textAlign: 'center'
     },
     headline: {
+        fontFamily: 'Poppins-Light',
         fontSize: 16,
         color: '#807d83',
         textAlign: 'center'
@@ -54,7 +55,6 @@ const styles = {
         alignSelf: 'center',
         borderRadius: 8,
         marginTop: 30,
-
     }
 };
 

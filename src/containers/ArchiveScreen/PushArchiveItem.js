@@ -48,18 +48,18 @@ class PushArchiveItem extends Component {
                     <View style={{ padding: 10 }}>
                         <View style={styles.topHeader}>
                             <View style={{ flexShrink: 1, paddingRight: 0 }}>
-                                <Text numberOfLines={2} style={{ fontWeight: '600', fontSize: 14, height: 40, paddingRight: 2 }}>{name}</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                                    <Icon name="ios-pin" style={{ color: colors.purple, fontSize: 14 }} />
-                                    <Text style={{ paddingLeft: 4, color: colors.purple }}>{location}</Text>
-                                </View>
+                                <Text numberOfLines={2} style={{ fontSize: 14, height: 40, paddingRight: 2, fontFamily: 'Poppins-SemiBold', lineHeight: 20 }}>{name}</Text>
                             </View>
                             <View style={{ backgroundColor: colors.purple, padding: 4, alignSelf: 'flex-start' }}>
-                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 10 }} >{dt1}</Text>
-                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 10 }} >{dt2}</Text>
+                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 10, fontFamily: 'Poppins-Regular' }} >{dt1}</Text>
+                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 10, fontFamily: 'Poppins-Regular' }} >{dt2}</Text>
                             </View>
                         </View>
-                        <Text numberOfLines={3} style={{ fontSize: 12, fontWeight: '300', color: '#707070', marginTop: 10 }}>{desc}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Icon name="ios-pin" style={{ color: colors.purple, fontSize: 14 }} />
+                            <Text style={{ paddingLeft: 4, color: colors.purple, fontFamily: 'Poppins-Light' }}>{location}</Text>
+                        </View>
+                        <Text numberOfLines={3} style={{ fontSize: 12, fontWeight: '300', color: '#707070', marginTop: 10, fontFamily: 'Poppins-Light' }}>{desc}</Text>
                     </View>
                 </Animated.View>
             </TouchableWithoutFeedback>
@@ -94,7 +94,8 @@ const styles = {
     serviceName: {
         paddingTop: 5,
         fontSize: 14,
-        color: 'grey'
+        color: 'grey',
+        lineHeight: 10,
     },
     eventDescContainer: {
         padding: 10,

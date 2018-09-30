@@ -193,7 +193,7 @@ class Interests extends Component {
                                             }}
                                         >
                                             <View style={{ width: this.wwidth, padding: 15, borderColor: '#ededed', borderBottomWidth: 1 }}>
-                                                <Text>{`${item.data().description}`}</Text>
+                                                <Text style={{ fontFamily: 'Poppins-Light', fontSize: 16 }}>{`${item.data().description}`}</Text>
                                             </View>
                                         </TouchableNativeFeedback>
                                 )}
@@ -209,7 +209,7 @@ class Interests extends Component {
             <View
                 style={{ alignItems: 'center', justifyContent: 'center' }}
             >
-                <Text>Loading Top Interests</Text>
+                <Text style={{ fontFamily: 'Poppins-SemiBold' }}>Loading Top Interests</Text>
                 <ActivityIndicator
                     style={{ marginTop: 15 }}
                     size="large"
@@ -237,8 +237,8 @@ class Interests extends Component {
                     >
                         <Text 
                             style={{
-                                fontSize: 26, 
-                                fontWeight: 'bold',
+                                fontSize: 26,
+                                fontFamily: 'Poppins-Medium',
                             }}
                         >
                             Choose Your Interests
@@ -302,16 +302,13 @@ class Interests extends Component {
                                     zIndex: 100,
                                 }}
                             >
-
                                 <Icon name="ios-close-circle-outline" style={{ color: 'grey', fontSize: 26 }} />
                             </View>
                         </TouchableWithoutFeedback>
                     </Animated.View>
-
-                    
                 </View>
                 
-                <Text style={{ color: '#807d83', fontSize: 16, marginLeft: 30, marginTop: 10 }}>Select minimum 5 interests</Text>
+                <Text style={{ color: '#807d83', fontSize: 16, marginLeft: 30, marginTop: 10, fontFamily: 'Poppins-Light' }}>Select minimum 5 interests</Text>
                 <View style={{ height: 120 }}>
                     <FlatList
                         showsHorizontalScrollIndicator={false}
@@ -389,6 +386,7 @@ const styles = {
 
     },
     continueButtonText: {
+        fontFamily: 'Poppins-Light',
         color: 'white',
         textAlign: 'center',
         fontSize: 22,
