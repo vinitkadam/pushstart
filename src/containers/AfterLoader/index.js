@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, Image } from 'react-native';
 import { Container, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { colors } from '../../colors';

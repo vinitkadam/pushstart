@@ -109,7 +109,7 @@ class ArchiveScreen extends Component {
                     <View>
                         <FlatList
                             horizontal
-                            style={{ backgroundColor: 'white', padding: 10 }}
+                            style={{ backgroundColor: 'white' }}
                             keyExtractor={(item, index) => 'item'.concat(index)}
                             data={pushTrends}
                             showsHorizontalScrollIndicator={false}
@@ -118,7 +118,8 @@ class ArchiveScreen extends Component {
                                 // sqare service boxes
                                 <TouchableOpacity>
                                     <PushTrendsItem 
-                                        data={item} 
+                                        data={item}
+                                        sceneProps={this.props.navigation}
                                     />
                                 </TouchableOpacity>
                             )}    
@@ -126,20 +127,20 @@ class ArchiveScreen extends Component {
                     </View>
                     <View>
                         <FlatList
-                        numColumns={2}
+                            numColumns={2}
                             style={{ backgroundColor: 'white', padding: 10 }}
                             keyExtractor={(item, index) => 'item'.concat(index)}
                             data={pushArchives}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (
-                    
                                 // sqare service boxes
                                 <TouchableOpacity>
                                     <PushArchiveItem 
                                         data={item}
+                                        sceneProps={this.props.navigation}
                                     />
                                 </TouchableOpacity>
-                            )}    
+                            )}
                         />
                     </View>
                 </Content>

@@ -4,17 +4,17 @@ import {
     View, 
     FlatList, 
     TouchableNativeFeedback, 
-    TouchableWithoutFeedback, 
-    Image, 
+    TouchableWithoutFeedback,
     Animated, 
     Dimensions, 
     Alert,
     TextInput,
     ActivityIndicator
 } from 'react-native';
-import { Container, Icon, Input, Content, Button } from 'native-base';
-import { colors } from '../../colors';
 import { connect } from 'react-redux';
+import { StackActions, NavigationActions } from 'react-navigation';
+import { Container, Icon, Content, Button } from 'native-base';
+import { colors } from '../../colors';
 import { getTopInterests, setSelectInterests, setUserInterests } from './InterestActions';
 import InterestsItem from './InterestsItem';
 import SelectedInterestsItem from './SelectedInterestsItem';
@@ -50,7 +50,10 @@ class Interests extends Component {
         } else {
             this.props.setUserInterests(this.state.selectedInterests, this.props.emailAddress, (nav) => {
                 if (nav === 'app') {
-                    this.props.navigation.navigate('app')
+                    this.props.navigation.navigate(StackActions.reset({
+                        index: 0,
+                        actions: [NavigationActions.navigate({ routeName: 'app' })],
+                      }))
                 } else if (nav === 'after_loader') {
                     this.props.navigation.navigate('after_loader')
                 } else {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, AsyncStorage, FlatList, TouchableOpacity, ScrollView, RefreshControl, StatusBar  } from 'react-native';
+import { Text, View, AsyncStorage, FlatList, TouchableOpacity, TouchableWithoutFeedback, RefreshControl, StatusBar  } from 'react-native';
 import { Button, Icon, Container, Content } from 'native-base';
 import firebase from 'react-native-firebase';
 import { colors } from '../../colors';
@@ -120,18 +120,19 @@ class HomeScreen extends Component {
                     <View>
                         <FlatList
                             horizontal
-                            style={{ backgroundColor: 'white', padding: 10 }}
+                            style={{ backgroundColor: 'white' }}
                             keyExtractor={(item, index) => 'item'.concat(index)}
                             data={livePushAMA}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (
                     
                                 // sqare service boxes
-                                <TouchableOpacity>
+                                <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate('eventDesc'); }}>
                                     <LivePushEvents 
                                         data={item}
+                                        sceneProps={this.props.navigation}
                                     />
-                                </TouchableOpacity>
+                                </TouchableWithoutFeedback>
                             )}    
                         />
                     </View>
@@ -147,6 +148,7 @@ class HomeScreen extends Component {
                                 <TouchableOpacity>
                                     <PushEventsItem 
                                         data={item}
+                                        sceneProps={this.props.navigation}
                                     />
                                 </TouchableOpacity>
                             )}    

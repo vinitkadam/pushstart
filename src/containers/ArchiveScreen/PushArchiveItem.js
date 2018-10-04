@@ -32,6 +32,7 @@ class PushArchiveItem extends Component {
         const dt2 = moment(date).format("MMM' YY");
         return (
             <TouchableWithoutFeedback
+                onPress={() => this.props.sceneProps.navigate('eventDesc')}
                 onPressIn={() => this.animateIn()}
                 onPressOut={() => this.animateOut()}
             >
@@ -45,20 +46,27 @@ class PushArchiveItem extends Component {
                     }]}
                 >
                     <Image source={require('./images/img.png')} style={styles.imageStyle} />
+                    
+                    {/* event details container */}
                     <View style={{ padding: 10 }}>
+                        {/* event name and date view */}
                         <View style={styles.topHeader}>
                             <View style={{ flexShrink: 1, paddingRight: 0 }}>
-                                <Text numberOfLines={2} style={{ fontSize: 14, height: 40, paddingRight: 2, fontFamily: 'Poppins-SemiBold', lineHeight: 20 }}>{name}</Text>
+                                <Text numberOfLines={2} style={{ fontSize: 14, paddingRight: 2, fontFamily: 'Poppins-SemiBold', lineHeight: 20 }}>{name}</Text>
                             </View>
                             <View style={{ backgroundColor: colors.purple, padding: 4, alignSelf: 'flex-start' }}>
-                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 10, fontFamily: 'Poppins-Regular' }} >{dt1}</Text>
-                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 10, fontFamily: 'Poppins-Regular' }} >{dt2}</Text>
+                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 8, fontFamily: 'Poppins-Regular' }} >{dt1}</Text>
+                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 8, fontFamily: 'Poppins-Regular' }} >{dt2}</Text>
                             </View>
                         </View>
+
+                        {/* event location view */}
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Icon name="ios-pin" style={{ color: colors.purple, fontSize: 14 }} />
-                            <Text style={{ paddingLeft: 4, color: colors.purple, fontFamily: 'Poppins-Light' }}>{location}</Text>
+                            <Text style={{ paddingLeft: 4, color: colors.purple, fontFamily: 'Poppins-Light', fontSize: 10 }}>{location}</Text>
                         </View>
+
+                        {/* event description */}
                         <Text numberOfLines={3} style={{ fontSize: 12, fontWeight: '300', color: '#707070', marginTop: 10, fontFamily: 'Poppins-Light' }}>{desc}</Text>
                     </View>
                 </Animated.View>

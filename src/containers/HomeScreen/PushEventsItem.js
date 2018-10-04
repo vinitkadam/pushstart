@@ -28,10 +28,10 @@ export default class PushEventsItem extends Component {
     render() {
         const { type, eventName, eventSpeaker, eventDesc, eventHashTag, date } = this.props.data;
         const imgUrl = './images/' + type + '.png';
-        console.log(imgUrl);
         const formatedDate = moment(date).format("dddd, MMMM Do YYYY, h:mm a");
         return (
             <TouchableWithoutFeedback
+                onPress={() => this.props.sceneProps.navigate('eventDesc')}
                 onPressIn={() => this.animateIn()}
                 onPressOut={() => this.animateOut()}
             >
@@ -42,7 +42,7 @@ export default class PushEventsItem extends Component {
                             }
                         ]
                     }]}>
-                <View style={{ padding: 10 }}>
+                <View style={{ padding: 10, flexShrink: 1 }}>
                     <Text style={styles.eventHashTag}>{eventHashTag}</Text>
                     <Text style={styles.eventName}>{eventName}</Text>
                     <Text style={styles.eventSpeaker}>{eventSpeaker}</Text>
@@ -73,11 +73,11 @@ const styles = {
     },
     eventHashTag: {
         fontFamily: 'Poppins-SemiBold',
-        fontSize: 14
+        fontSize: 12
     },
     eventName: {
         fontFamily: 'Poppins-Regular',
-        fontSize: 16,
+        fontSize: 14,
         color: colors.purple
     },
     eventSpeaker: {

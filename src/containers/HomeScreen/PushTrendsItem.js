@@ -29,6 +29,7 @@ class PushTrendsItem extends Component {
         const { eventName, eventSpeaker, eventDesc, eventHashTag } = this.props.data;
         return (
             <TouchableWithoutFeedback
+                onPress={() => this.props.sceneProps.navigate('eventDesc')}
                 onPressIn={() => this.animateIn()}
                 onPressOut={() => this.animateOut()}
             >

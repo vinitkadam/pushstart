@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, Image, Dimensions, FlatList } from 'react-native';
+import { Text, View, ScrollView, ImageBackground, Image, Dimensions, FlatList } from 'react-native';
 import { Container, Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { colors } from '../../colors';
@@ -78,15 +78,33 @@ class ProfileScreen extends Component {
                             renderItem={({ item }) => {
                                 console.log(item);
                                     return (
-                                        <View
-                                            style={styles.item}
-                                        >
-                                            <Image 
+                                            <ImageBackground
                                                 source={require('../Interests/images/icon-skills.png')}
-                                                style={{ width: 50, height: 50 }}
-                                            />
-                                            <Text numberOfLines={2}  style={{ textAlign: 'center', fontFamily: 'Poppins-Medium' }}>{`${item.description}`}</Text>
-                                        </View>
+                                                style={styles.item}
+                                            >
+                                                <View 
+                                                    style={{ 
+                                                        borderRadius: interestsCircleWidth, 
+                                                        backgroundColor: 'rgba(134, 94, 208, 0.67)', 
+                                                        height: '100%', 
+                                                        width: '100%',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center'
+                                                    }}
+                                                >
+                                                    <Text 
+                                                        numberOfLines={3} 
+                                                        style={{ 
+                                                            textAlign: 'center', 
+                                                            fontFamily: 'Poppins-Medium', 
+                                                            fontSize: 10,
+                                                            color: 'white'
+                                                        }}
+                                                    >
+                                                        {`${item.description}`}
+                                                    </Text>
+                                                </View>
+                                            </ImageBackground>
                                 );
                             }}
                         />
@@ -95,7 +113,7 @@ class ProfileScreen extends Component {
                     <View style={styles.card2}>
                         <Text style={{ color: '#2a3455', fontSize: 18, fontWeight: '500', margin: 10 }}>Expertise</Text>
                         <Button bordered style={{ borderColor: colors.purple, padding: 10, margin: 10, borderRadius: 8 }}>
-                            <Text style={{ fontFamily: 'Poppins-Medium' }}>{this.props.industry}</Text>
+                            <Text style={{ fontFamily: 'Poppins-Medium', color: colors.purple }}>{this.props.industry}</Text>
                         </Button>
                     </View>
                     
@@ -105,6 +123,8 @@ class ProfileScreen extends Component {
     }
 }
 
+
+const interestsCircleWidth = (win.width / 3) - 18;
 
 const styles = {
     name: {
@@ -123,7 +143,6 @@ const styles = {
         marginTop: 5
     },
     card1: {
-        fontFamily: 'Poppins-Regular',
         paddingTop: 70,
         backgroundColor: 'white',
         marginTop: -68,
@@ -145,9 +164,11 @@ const styles = {
     },
     item: {
         marginVertical: 10,
-        width: (win.width / 3) - 7,
+        width: interestsCircleWidth,
+        height: interestsCircleWidth,
+        borderRadius: interestsCircleWidth / 2,
         alignItems: 'center',
-        borderRadius: 4,
+        margin: 6
         // backgroundColor: 'red'
     },
 }

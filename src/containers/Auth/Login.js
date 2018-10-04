@@ -237,6 +237,7 @@
 import React, { Component } from 'react';
 import { Text, View, Dimensions, Image, Platform, ActivityIndicator, Alert } from 'react-native';
 import { Button, Icon, Content } from 'native-base';
+import { StackActions, NavigationActions } from 'react-navigation';
 import LinkedInModal from 'react-native-linkedin';
 import { connect } from 'react-redux';
 import EntypoIcons from 'react-native-vector-icons/Entypo'
@@ -260,32 +261,32 @@ class Login extends Component {
         const baseApi = 'https://api.linkedin.com/v1/people/'
         const qs = { format: 'json' }
         const params = [
-          'id',
-          'first-name',
-          'last-name',
-          'picture-urls::(original)',
-          'headline',
-          'email-address',
-          'location',
-          'industry',
-          'summary',
-          'specialties',
-          'num-connections',
-          'positions',
+            'id',
+            'first-name',
+            'last-name',
+            'picture-urls::(original)',
+            'headline',
+            'email-address',
+            'location',
+            'industry',
+            'summary',
+            'specialties',
+            'num-connections',
+            'positions',
         ];
     
         const response = await fetch(`${baseApi}~:(${params.join(',')})?format=json`, {
-          method: 'GET',
-          headers: {
-            Authorization: 'Bearer ' + access_token,
-          },
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+            },
         })
         const payload = await response.json()
         console.log(payload);
 
         this.props.saveUserData(payload, (nav) => {
             if (nav === 'app') {
-                this.props.navigation.navigate('app')
+                this.props.navigation.navigate('app');
             } else if (nav === 'after_loader') {
                 this.props.navigation.navigate('after_loader')
             } else {
@@ -307,9 +308,10 @@ class Login extends Component {
         const { emailAddress, refreshing } = this.state;
         return (
             <View style={styles.container}>
-                <Content>
+                
                 {!emailAddress &&
                     !refreshing && (
+                        <Content>
                         <View style={[styles.innerContainer, { paddingTop: 0 }]}>
                             <View style={{ marginHorizontal: 40 }}>
                                 <Text style={styles.heading}>Join Pushstart</Text>
@@ -339,14 +341,18 @@ class Login extends Component {
                             />
                             
                             <Text style={styles.bottomText}>
-                                By signing up you agree to our Terms of Use and Privacy Policy
+                                <Text>By signing up you agree to our </Text>
+                                <Text style={{ fontFamily: 'Poppins-SemiBold' }}>Terms of Use </Text>
+                                <Text>and </Text>
+                                <Text style={{ fontFamily: 'Poppins-SemiBold' }}>Privacy Policy</Text>
                             </Text>
                         </View>
+                        </Content>
+
                     )
                 }
-
+                
                 {refreshing && <ActivityIndicator size="large" />}
-                </Content>
             </View>
         );
     }
@@ -383,6 +389,7 @@ const styles = {
         height: 1087 * ratio1,
     },
     buttonStyle: {
+        marginBottom: 10,
         backgroundColor: '#3d83d9',
         alignSelf: 'center',
         width: win.width - 80,

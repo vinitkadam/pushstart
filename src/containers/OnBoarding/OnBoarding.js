@@ -105,7 +105,7 @@ export default class OnboardingScreen extends React.Component {
   render() {
     return (
       <Onboarding
-        onDone={() => { this.props.navigation.navigate('login'); }}
+        onDone={() => { this.props.navigation.navigate('auth'); }}
         showSkip={false}
         bottomBarHeight={80}
         bottomBarHighlight={false}

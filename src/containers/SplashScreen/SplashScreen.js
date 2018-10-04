@@ -12,14 +12,14 @@ class SplashScreen extends Component {
 
         if (isLoggedIn === 'true') {
             this.setFirstTimeLogin();
-            this.props.navigation.dispatch(app);
+            this.props.navigation.navigate('app');
         } else {
             const isFirstTimeLogin = this.getIsFirstTimeLogin();
             console.log('isFirstTimeLogin', isFirstTimeLogin);
             if (isFirstTimeLogin === 'false') {
-                this.props.navigation.dispatch(login);
+                this.props.navigation.dispatch('auth');
             } else {
-                this.props.navigation.dispatch(onBoarding);
+                this.props.navigation.navigate('onBoarding');
             }
         }		
     }
